@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <textarea spellcheck="false">
+    <!-- <textarea spellcheck="false">
                 _  _ __, _,   _,  _, _, _ __,   ___  _,
                 |  | |_  |   / ` / \ |\/| |_     |  / \
                 |/\| |   | , \ , \ / |  | |      |  \ /
@@ -41,7 +41,7 @@
     # get the whole whois of a name
     $ nscli query nameservice whois SOME_DOMAIN \
     --chain-id namechain --node=cli.talkshop.name:26657</textarea
-    >
+    > -->
     <form @submit.prevent="submit">
       <vue-recaptcha
         ref="recaptcha"

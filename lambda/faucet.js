@@ -16,35 +16,61 @@ const GoogleRecaptcha = require('google-recaptcha')
 const googleRecaptcha = new GoogleRecaptcha({
   secret: process.env.GOOGLE
 })
-const restEndpoint = 'https://node.talkshop.name'
+const restEndpoint = 'http://mt-rest.okw.me'
 let tx = {
-  'msg': [
+  'chain_id': 'sf-blockchain-week',
+  'account_number': '2',
+  'sequence': null,
+  'fee': {
+    'amount': null,
+    'gas': '200000'
+  },
+  'msgs': [
     {
       'type': 'cosmos-sdk/MsgSend',
       'value': {
-        'from_address': 'cosmos1zcpdj7fwzcqux0feav3pqarggfzsq2e2a46rz0',
+        'from_address': process.env.address,
         'to_address': null,
         'amount': [
           {
-            'denom': 'nametoken',
+            'denom': 'fox',
             'amount': '1'
           }
         ]
       }
     }
   ],
-  'fee': {
-    'amount': [
-      {
-        'denom': 'nametoken',
-        'amount': '1'
-      }
-    ],
-    'gas': '200000'
-  },
-  'signatures': null,
   'memo': ''
 }
+
+// let tx = {
+//   'msg': [
+//     {
+//       'type': 'cosmos-sdk/MsgSend',
+//       'value': {
+//         'from_address': process.env.address,
+//         'to_address': null,
+//         'amount': [
+//           {
+//             'denom': 'fox',
+//             'amount': '1'
+//           }
+//         ]
+//       }
+//     }
+//   ],
+//   'fee': {
+//     'amount': [
+//       {
+//         'denom': 'fox',
+//         'amount': '1'
+//       }
+//     ],
+//     'gas': '200000'
+//   },
+//   'signatures': null,
+//   'memo': ''
+// }
 exports.handler = async function (event, context) {
   // let headers = {
   //   'Access-Control-Allow-Origin': '*',
@@ -80,12 +106,14 @@ exports.handler = async function (event, context) {
             tx,
             return: 'block'
           }
+          console.log({body})
           // send tx
           let res = await axios
             .post(
               restEndpoint + '/txs',
               body
             )
+          console.log({res})
           return {
             statusCode: res.status,
             body: JSON.stringify(res.data)

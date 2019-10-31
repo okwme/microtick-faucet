@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <h1>Talkshop Name Server</h1>
-    <h2>With the Cosmos SDK</h2>
-    <div id="menu">
+    <h1>Mictrotick Faucet</h1>
+    <!-- <h2>With the Cosmos SDK</h2> -->
+    <!-- <div id="menu">
       <router-link to="/">Commands</router-link>
       <router-link to="/names">Names</router-link>
-    </div>
+    </div> -->
     <router-view/>
     <div class="footer">
-      <h2 class="tut">
+      <!-- <h2 class="tut">
         The <a href="https://github.com/cosmos/sdk-application-tutorial" target="_blank">SDK Application Tutorial</a> is on Github
-      </h2>
+      </h2> -->
     </div>
   </div>
 </template>

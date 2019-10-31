@@ -6,12 +6,12 @@ const {
   sign,
   // createSignature,
   // createSignMessage,
-  generateWalletFromSeed,
+  getNewWalletFromSeed,
   // generateSeed,
   // generateWallet,
   createSignedTx
   // createBroadcastBody
-} = require('js-cosmos-wallet')
+} = require('@lunie/cosmos-keys')
 const GoogleRecaptcha = require('google-recaptcha')
 const googleRecaptcha = new GoogleRecaptcha({
   secret: process.env.GOOGLE
@@ -42,6 +42,37 @@ let tx = {
   ],
   'memo': ''
 }
+
+// generated from cli
+
+// tx = {
+//   'type': 'auth/StdTx',
+//   'value': {
+//     'msg': [
+//       {
+//         'type': 'cosmos-sdk/MsgSend',
+//         'value': {
+//           'from_address': 'cosmos1kwkllsq70dgcq78xrwra3nvnzrgj30tusjj957',
+//           'to_address': 'cosmos1nx3e6j0yeckpdctg0xz8nc7tckz0aewlpx52xf',
+//           'amount': [
+//             {
+//               'denom': 'fox',
+//               'amount': '1'
+//             }
+//           ]
+//         }
+//       }
+//     ],
+//     'fee': {
+//       'amount': null,
+//       'gas': '200000'
+//     },
+//     'signatures': null,
+//     'memo': ''
+//   }
+// }
+
+// very old format below
 
 // let tx = {
 //   'msg': [
@@ -83,11 +114,12 @@ exports.handler = async function (event, context) {
       let body = JSON.parse(event.body)
       let recepient = body.recepient
       let recaptchaResponse = body.recaptchaToken
-      let error = await new Promise((resolve, reject) => {
-        googleRecaptcha.verify({ response: recaptchaResponse }, async (error) => {
-          if (error) { reject(error) } else { resolve() }
-        })
-      })
+      let error
+      // error = await new Promise((resolve, reject) => {
+      //   googleRecaptcha.verify({ response: recaptchaResponse }, async (error) => {
+      //     if (error) { reject(error) } else { resolve() }
+      //   })
+      // })
       if (error) {
         console.error(error)
         return {
@@ -97,10 +129,11 @@ exports.handler = async function (event, context) {
       } else {
         try {
           // prepare tx
-          const wallet = generateWalletFromSeed(process.env.MNEMONIC)
+          const wallet = getNewWalletFromSeed(process.env.MNEMONIC)
           const requestMetadata = await getMetadata()
+          console.log({requestMetadata})
           requestMetadata.chain_id = process.env.CHAIN_ID
-          tx.msg[0].value.to_address = recepient
+          tx.msgs[0].value.to_address = recepient
           tx = createSignedTx(tx, sign(tx, wallet, requestMetadata))
           let body = {
             tx,

@@ -78,7 +78,8 @@ export default {
   methods: {
     submit: function () {
       this.status = 'submitting'
-      this.$refs.recaptcha.execute()
+      // this.$refs.recaptcha.execute()
+      this.onCaptchaVerified()
     },
     onCaptchaVerified: async function (recaptchaToken) {
       const self = this

@@ -14,7 +14,7 @@
   "dependencies": {
     "@lunie/cosmos-js": "^0.0.22",
     "@lunie/cosmos-keys": "^0.0.11",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "dotenv": "^7.0.0",
     "google-recaptcha": "^1.1.0",
     "js-cosmos-wallet": "^0.0.2",
